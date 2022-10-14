@@ -30,6 +30,18 @@ RSpec.describe "Users", type: :request do
       end
     end
 
+    context 'when fetching users by username' do
+      include_context 'with multiple companies'
+
+      let!(:user) { create(:user, company: company_1, username: 'username') }
+
+      it 'returns only the users for the specified by username' do
+        get company_users_path(company_1, { username: 'username' })
+
+        expect(result.size).to eq(1)
+      end
+    end
+
     context 'when fetching all users' do
       include_context 'with multiple companies'
 
